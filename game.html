@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Меткий инспектор — Мосводоэксплуатация</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,sans-serif;background:#1a1f2e;color:#e8eaf0;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:16px}
+
+#gate{text-align:center;max-width:340px}
+#gate h1{font-size:22px;font-weight:600;margin-bottom:8px;color:#e8eaf0}
+#gate p{font-size:14px;color:#8a90a4;line-height:1.5;margin-bottom:20px}
+.icon-big{font-size:48px;margin-bottom:16px;display:block}
+.btn-row{display:flex;gap:10px;justify-content:center}
+button{padding:9px 22px;border-radius:8px;border:1px solid #3a4060;background:transparent;color:#e8eaf0;font-size:14px;cursor:pointer;transition:background .15s}
+button:hover{background:#2a3050}
+button.primary{background:#2563b0;border-color:#2563b0;color:#fff}
+button.primary:hover{background:#1d52a0}
+
+#game-wrap{display:none;flex-direction:column;align-items:center;gap:10px}
+#hud{width:480px;max-width:100%;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#8a90a4}
+#hud b{color:#e8eaf0}
+
+canvas{border-radius:10px;border:1px solid #2a3050;display:block;touch-action:none}
+
+#ui-bar{width:480px;max-width:100%;display:flex;align-items:center;gap:12px}
+#angle-wrap{flex:1}
+label{font-size:12px;color:#8a90a4;display:block;margin-bottom:4px}
+input[type=range]{width:100%;accent-color:#2563b0;cursor:pointer}
+#power-wrap{flex:1}
+#throw-btn{padding:10px 20px;background:#2563b0;border:none;border-radius:8px;color:#fff;font-size:14px;cursor:pointer;white-space:nowrap}
+#throw-btn:hover{background:#1d52a0}
+#throw-btn:disabled{background:#2a3050;color:#555;cursor:default}
+
+#msg-bar{height:22px;font-size:14px;font-weight:500;color:#e8eaf0;text-align:center}
+#restart-btn{display:none;padding:9px 22px;border-radius:8px;border:1px solid #3a4060;background:transparent;color:#e8eaf0;font-size:14px;cursor:pointer}
+#restart-btn:hover{background:#2a3050}
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <span class="icon-big">🔧</span>
+  <h1>Меткий инспектор</h1>
+  <p>Бросьте пломбу точно на крепление счётчика. Учитывайте ветер и рассчитайте силу броска.</p>
+  <div class="btn-row">
+    <button class="primary" id="start-btn">Сыграть</button>
+    <button id="skip-btn">Не сейчас</button>
+  </div>
+</div>
+
+<div id="game-wrap">
+  <div id="hud">
+    <span>Уровень: <b id="lv">1</b></span>
+    <span>Счёт: <b id="sc">0</b></span>
+    <span>Ветер: <b id="wd">—</b></span>
+    <span>Попыток: <b id="at">3</b></span>
+  </div>
+  <canvas id="c" width="480" height="360"></canvas>
+  <div id="msg-bar"></div>
+  <div id="ui-bar">
+    <div id="angle-wrap">
+      <label>Угол: <b id="av">45</b>°</label>
+      <input type="range" id="angle" min="10" max="80" value="45" step="1">
+    </div>
+    <div id="power-wrap">
+      <label>Сила: <b id="pv">50</b>%</label>
+      <input type="range" id="power" min="20" max="100" value="50" step="1">
+    </div>
+    <button id="throw-btn">Бросить</button>
+  </div>
+  <button id="restart-btn">Следующий уровень</button>
+</div>
+
+<script>
+const gate=document.getElementById('gate');
+const gw=document.getElementById('game-wrap');
+const cv=document.getElementById('c');
+const ctx=cv.getContext('2d');
+const W=480,H=360;
+
+const lvEl=document.getElementById('lv');
+const scEl=document.getElementById('sc');
+const wdEl=document.getElementById('wd');
+const atEl=document.getElementById('at');
+const msgEl=document.getElementById('msg-bar');
+const throwBtn=document.getElementById('throw-btn');
+const restartBtn=document.getElementById('restart-btn');
+const angleIn=document.getElementById('angle');
+const powerIn=document.getElementById('power');
+const avEl=document.getElementById('av');
+const pvEl=document.getElementById('pv');
+
+document.getElementById('start-btn').onclick=()=>{gate.style.display='none';gw.style.display='flex';startLevel();};
+document.getElementById('skip-btn').onclick=()=>{gate.style.display='none';};
+angleIn.oninput=()=>{avEl.textContent=angleIn.value;if(!flying)draw();};
+powerIn.oninput=()=>{pvEl.textContent=powerIn.value;if(!flying)draw();};
+
+let score=0,level=1,attempts=3,flying=false,raf=null;
+let seal={x:0,y:0,vx:0,vy:0,r:8};
+let target={x:0,y:0,w:24,h:10};
+let wind=0;
+let trailPts=[];
+let boom=null;
+let sealLanded=false;
+
+const LEVELS=[
+  {wind:0,   targetX:0.72, targetY:0.38},
+  {wind:0.04,targetX:0.68, targetY:0.32},
+  {wind:-0.05,targetX:0.75,targetY:0.44},
+  {wind:0.07,targetX:0.65, targetY:0.28},
+  {wind:-0.08,targetX:0.78,targetY:0.35},
+];
+
+function levelConf(){return LEVELS[Math.min(level-1,LEVELS.length-1)];}
+
+function startLevel(){
+  const conf=levelConf();
+  wind=conf.wind+(Math.random()-0.5)*0.02;
+  target.x=W*conf.targetX;
+  target.y=H*conf.targetY;
+  attempts=3+(level>3?0:0);
+  flying=false;sealLanded=false;
+  trailPts=[];boom=null;
+  resetSeal();
+  updateHUD();
+  throwBtn.disabled=false;
+  restartBtn.style.display='none';
+  msgEl.textContent='';
+  draw();
+}
+
+function resetSeal(){
+  seal.x=44;seal.y=H-60;
+  seal.vx=0;seal.vy=0;
+}
+
+function updateHUD(){
+  lvEl.textContent=level;
+  scEl.textContent=score;
+  atEl.textContent=attempts;
+  const wStr=wind===0?'нет':((wind>0?'+':'')+Math.round(wind*100)+'%');
+  wdEl.textContent=wStr;
+}
+
+function launch(){
+  if(flying||sealLanded)return;
+  const a=parseInt(angleIn.value)*Math.PI/180;
+  const p=parseInt(powerIn.value)/100;
+  const spd=p*14;
+  seal.vx=Math.cos(a)*spd;
+  seal.vy=-Math.sin(a)*spd;
+  trailPts=[[seal.x,seal.y]];
+  flying=true;
+  throwBtn.disabled=true;
+  boom=null;
+  animate();
+}
+
+throwBtn.onclick=launch;
+restartBtn.onclick=()=>{level++;startLevel();};
+
+function animate(){
+  if(!flying)return;
+  const G=0.32;
+  seal.vy+=G;
+  seal.vx+=wind;
+  seal.x+=seal.vx;
+  seal.y+=seal.vy;
+  trailPts.push([seal.x,seal.y]);
+  if(trailPts.length>40)trailPts.shift();
+
+  const hit=Math.abs(seal.x-target.x)<target.w/2+seal.r&&Math.abs(seal.y-target.y)<target.h/2+seal.r;
+  if(hit){
+    flying=false;sealLanded=true;
+    const dist=Math.hypot(seal.x-target.x,seal.y-target.y);
+    const perfect=dist<10;
+    score+=perfect?100:60;
+    boom={x:seal.x,y:seal.y,ok:true,t:0};
+    msgEl.textContent=perfect?'Идеально! +100':'Попал! +60';
+    msgEl.style.color=perfect?'#4cde90':'#60b0ff';
+    updateHUD();
+    draw();
+    setTimeout(()=>{restartBtn.style.display='block';restartBtn.textContent='Уровень '+(level+1)+' →';},700);
+    return;
+  }
+
+  if(seal.y>H+20||seal.x>W+20||seal.x<-20){
+    flying=false;
+    attempts--;
+    boom={x:Math.min(Math.max(seal.x,10),W-10),y:Math.min(seal.y,H-10),ok:false,t:0};
+    updateHUD();
+    if(attempts<=0){
+      msgEl.textContent='Попытки кончились. Уровень заново.';
+      msgEl.style.color='#e05560';
+      draw();
+      setTimeout(()=>{
+        restartBtn.style.display='block';
+        restartBtn.textContent='Попробовать снова';
+        restartBtn.onclick=()=>{attempts=3;flying=false;sealLanded=false;trailPts=[];boom=null;resetSeal();updateHUD();throwBtn.disabled=false;restartBtn.style.display='none';msgEl.textContent='';draw();};
+      },600);
+    } else {
+      msgEl.textContent='Мимо! Осталось попыток: '+attempts;
+      msgEl.style.color='#e09050';
+      draw();
+      setTimeout(()=>{resetSeal();flying=false;trailPts=[];boom=null;throwBtn.disabled=false;draw();},700);
+    }
+    return;
+  }
+  draw();
+  raf=requestAnimationFrame(animate);
+}
+
+function drawMeter(){
+  const mx=target.x,my=target.y;
+  ctx.fillStyle='#5a6070';
+  ctx.fillRect(mx-30,my-20,60,48);
+  ctx.fillStyle='#3a4050';
+  ctx.fillRect(mx-24,my-14,48,28);
+  ctx.strokeStyle='#60d0a0';ctx.lineWidth=1;
+  ctx.strokeRect(mx-24,my-14,48,28);
+  ctx.fillStyle='#1a5a3a';
+  ctx.fillRect(mx-18,my-8,36,16);
+  ctx.fillStyle='#60d0a0';ctx.font='bold 9px sans-serif';ctx.textAlign='center';
+  ctx.fillText('м³',mx,my+4);
+  ctx.fillStyle='#8a90a4';
+  ctx.fillRect(mx-4,my+28,8,10);
+  ctx.fillRect(mx-14,my+36,28,6);
+  ctx.fillStyle='#aab0c0';
+  ctx.font='10px sans-serif';ctx.textAlign='center';
+  ctx.fillText('ИВК-201',mx,my+64);
+
+  ctx.fillStyle='#e0c060';
+  ctx.fillRect(target.x-target.w/2,target.y-target.h/2,target.w,target.h);
+  ctx.strokeStyle='#c8a030';ctx.lineWidth=1;
+  ctx.strokeRect(target.x-target.w/2,target.y-target.h/2,target.w,target.h);
+  ctx.fillStyle='#3a2000';ctx.font='bold 7px sans-serif';ctx.textAlign='center';
+  ctx.fillText('ПЛОМБА',target.x,target.y+3);
+}
+
+function drawWall(){
+  ctx.fillStyle='#2a3040';
+  ctx.fillRect(W*0.55,0,W*0.45,H);
+  ctx.strokeStyle='#3a4555';ctx.lineWidth=1;
+  for(let y=20;y<H;y+=30){
+    for(let x=Math.ceil(W*0.55/80)*80;x<W;x+=80){
+      ctx.strokeRect(x+(y%60<30?0:40),y,78,28);
+    }
+  }
+  ctx.strokeStyle='#2d3545';
+  for(let y=20;y<H;y+=30)ctx.strokeRect(W*0.55,y,W,28);
+}
+
+function drawPerson(){
+  const px=44,py=H-60;
+  ctx.fillStyle='#4a7acc';
+  ctx.beginPath();ctx.arc(px,py-28,10,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#6090dd';
+  ctx.fillRect(px-10,py-18,20,22);
+  ctx.fillStyle='#4a7acc';
+  ctx.fillRect(px-10,py+4,7,18);ctx.fillRect(px+3,py+4,7,18);
+  ctx.fillStyle='#a0b8e0';
+  ctx.fillRect(px+6,py-14,14,6);
+  if(!flying&&!sealLanded){
+    const a=parseInt(angleIn.value)*Math.PI/180;
+    const arm=18;
+    ctx.strokeStyle='#4a7acc';ctx.lineWidth=4;ctx.lineCap='round';
+    ctx.beginPath();ctx.moveTo(px+6,py-12);ctx.lineTo(px+6+Math.cos(a)*arm,py-12-Math.sin(a)*arm);ctx.stroke();
+    ctx.fillStyle='#e0c060';
+    ctx.beginPath();ctx.arc(px+6+Math.cos(a)*arm,py-12-Math.sin(a)*arm,seal.r,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle='#c8a030';ctx.lineWidth=1;ctx.stroke();
+  }
+}
+
+function drawSeal(){
+  if(flying||sealLanded){
+    ctx.fillStyle='#e0c060';
+    ctx.beginPath();ctx.arc(seal.x,seal.y,seal.r,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle='#c8a030';ctx.lineWidth=1.5;ctx.stroke();
+    ctx.fillStyle='#3a2000';ctx.font='bold 6px sans-serif';ctx.textAlign='center';
+    ctx.fillText('П',seal.x,seal.y+2);
+  }
+}
+
+function drawTrail(){
+  if(trailPts.length<2)return;
+  ctx.strokeStyle='rgba(224,192,96,0.3)';ctx.lineWidth=2;ctx.setLineDash([4,4]);
+  ctx.beginPath();ctx.moveTo(trailPts[0][0],trailPts[0][1]);
+  for(let i=1;i<trailPts.length;i++)ctx.lineTo(trailPts[i][0],trailPts[i][1]);
+  ctx.stroke();ctx.setLineDash([]);
+}
+
+function drawAimGuide(){
+  if(flying||sealLanded)return;
+  const a=parseInt(angleIn.value)*Math.PI/180;
+  const p=parseInt(powerIn.value)/100;
+  let sx=seal.x,sy=seal.y;
+  let vx2=Math.cos(a)*p*14,vy2=-Math.sin(a)*p*14;
+  ctx.strokeStyle='rgba(255,255,255,0.12)';ctx.lineWidth=1;ctx.setLineDash([3,6]);
+  ctx.beginPath();ctx.moveTo(sx,sy);
+  for(let i=0;i<80;i++){
+    vy2+=0.32;vx2+=wind;sx+=vx2;sy+=vy2;
+    if(sy>H||sx>W)break;
+    ctx.lineTo(sx,sy);
+  }
+  ctx.stroke();ctx.setLineDash([]);
+}
+
+function drawWindArrow(){
+  if(Math.abs(wind)<0.001)return;
+  const cx=W/2,cy=18;
+  const len=Math.min(Math.abs(wind)*400,50);
+  const dir=wind>0?1:-1;
+  ctx.strokeStyle='#60a8e0';ctx.lineWidth=2;ctx.lineCap='round';
+  ctx.beginPath();ctx.moveTo(cx-dir*len/2,cy);ctx.lineTo(cx+dir*len/2,cy);ctx.stroke();
+  ctx.fillStyle='#60a8e0';
+  ctx.beginPath();
+  const ax=cx+dir*len/2;
+  ctx.moveTo(ax,cy);ctx.lineTo(ax-dir*8,cy-5);ctx.lineTo(ax-dir*8,cy+5);ctx.closePath();ctx.fill();
+  ctx.fillStyle='#8ab0d0';ctx.font='11px sans-serif';ctx.textAlign='center';
+  ctx.fillText('ветер',cx,cy+22);
+}
+
+function drawBoom(){
+  if(!boom)return;
+  boom.t++;
+  const r=boom.t*3;
+  ctx.strokeStyle=boom.ok?'rgba(76,222,144,'+Math.max(0,1-boom.t/20)+')':'rgba(224,85,96,'+Math.max(0,1-boom.t/20)+')';
+  ctx.lineWidth=2;
+  ctx.beginPath();ctx.arc(boom.x,boom.y,r,0,Math.PI*2);ctx.stroke();
+}
+
+function drawFloor(){
+  ctx.fillStyle='#1e2535';
+  ctx.fillRect(0,H-30,W*0.56,30);
+  ctx.fillStyle='#2a3040';
+  ctx.fillRect(0,H-8,W*0.56,8);
+}
+
+function drawBg(){
+  ctx.fillStyle='#141824';
+  ctx.fillRect(0,0,W,H);
+}
+
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  drawBg();
+  drawWall();
+  drawFloor();
+  drawWindArrow();
+  drawMeter();
+  drawAimGuide();
+  drawTrail();
+  drawSeal();
+  drawPerson();
+  if(boom)drawBoom();
+}
+
+draw();
+</script>
+</body>
+</html>
