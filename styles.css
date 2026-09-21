@@ -1,6 +1,6 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-:root {
+:root, [data-theme="dark"] {
   --bg: #0f0c18;
   --card: #171326;
   --card2: #1d1830;
@@ -14,7 +14,34 @@
   --accent-soft: rgba(166,120,255,.12);
   --accent-border: rgba(166,120,255,.42);
   --link: #b9a1ff;
+  --top-bg: rgba(15,12,24,.88);
+  --hero-glow: rgba(141,95,246,.18);
+  --badge-text: #231a3a;
+  --modal-bg: rgba(8,6,15,.78);
 }
+
+[data-theme="light"] {
+  --bg: #f7f5fc;
+  --card: #ffffff;
+  --card2: #f0edf8;
+  --line: #e2dcf0;
+  --line2: #cdc3e6;
+  --text: #1f1a33;
+  --muted: #5d5573;
+  --accent: #7c4dff;
+  --accent-strong: #8b5cf6;
+  --accent-deep: #6d3ef0;
+  --accent-soft: rgba(124,77,255,.1);
+  --accent-border: rgba(124,77,255,.35);
+  --link: #6d3ef0;
+  --top-bg: rgba(247,245,252,.9);
+  --hero-glow: rgba(124,77,255,.12);
+  --badge-text: #3a2f5e;
+  --modal-bg: rgba(60,50,90,.5);
+  color-scheme: light;
+}
+
+html:has([data-theme="light"]) { color-scheme: light; }
 
 html { scroll-behavior: smooth; }
 
@@ -31,7 +58,7 @@ a { color: var(--link); text-decoration: none; }
 /* ===== Header ===== */
 .top {
   position: sticky; top: 0; z-index: 50;
-  background: rgba(15,12,24,.88);
+  background: var(--top-bg);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
 }
@@ -66,6 +93,19 @@ nav a:not(.btn) { color: var(--muted); transition: color .2s; }
 nav a:not(.btn):hover { color: var(--text); }
 .nav__phone { color: var(--text) !important; font-weight: 700; }
 
+.theme-toggle {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--card); border: 1px solid var(--line2); color: var(--text);
+  border-radius: 999px; padding: 7px 13px; font-size: 13px; font-weight: 600;
+  cursor: pointer; font-family: inherit; transition: .2s;
+}
+.theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+.theme-toggle .theme-toggle__icon { font-size: 15px; line-height: 1; }
+@media (max-width: 1050px) {
+  .theme-toggle { padding: 7px 11px; }
+  .theme-toggle .theme-toggle__label { display: none; }
+}
+
 /* ===== Buttons ===== */
 .btn {
   display: inline-block; padding: 11px 22px; border-radius: 12px;
@@ -87,7 +127,7 @@ nav a:not(.btn):hover { color: var(--text); }
 }
 .hero::before {
   content: ""; position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
-  width: 720px; height: 380px; background: radial-gradient(closest-side, rgba(141,95,246,.18), transparent);
+  width: 720px; height: 380px; background: radial-gradient(closest-side, var(--hero-glow), transparent);
   pointer-events: none;
 }
 .hero h1 { position: relative; font-size: clamp(30px, 5vw, 52px); line-height: 1.12; }
@@ -96,7 +136,7 @@ nav a:not(.btn):hover { color: var(--text); }
 .badge-partner {
   display: inline-flex; align-items: center; gap: 9px;
   background: #fff; border: 1px solid rgba(255,255,255,.9);
-  color: #231a3a; padding: 6px 16px 6px 8px; border-radius: 999px; font-size: 14px;
+  color: var(--badge-text); padding: 6px 16px 6px 8px; border-radius: 999px; font-size: 14px;
   box-shadow: 0 4px 16px rgba(0,0,0,.35);
   cursor: pointer;
 }
@@ -247,7 +287,7 @@ nav a:not(.btn):hover { color: var(--text); }
 
 /* ===== Модалка аттестата ===== */
 .attestmodal {
-  position: fixed; inset: 0; z-index: 100; background: rgba(8,6,15,.78);
+  position: fixed; inset: 0; z-index: 100; background: var(--modal-bg);
   display: flex; align-items: center; justify-content: center; padding: 20px;
   opacity: 0; pointer-events: none; transition: opacity .2s;
 }

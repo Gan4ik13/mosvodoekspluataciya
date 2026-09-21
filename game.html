@@ -4,53 +4,74 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Меткий инспектор — МосВодоЭксплуатация</title>
+<script src="theme.js" defer></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:system-ui,-apple-system,sans-serif;background:#120e1f;color:#e9e4f5;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:16px}
+:root,[data-theme="dark"]{
+  --g-bg:#120e1f;--g-text:#e9e4f5;--g-muted:#9a90b8;--g-accent:#a678ff;--g-deep:#7c4dff;
+  --g-glow:rgba(124,77,255,.4);--g-line:#3a2f5e;--g-hover:#2a2140;--g-panel:#1a1430;
+  --g-track:#3a2f5e;--g-scale:#6a5f8a;--g-dis:#555;--g-shade:#2a2140;
+}
+[data-theme="light"]{
+  --g-bg:#f7f5fc;--g-text:#1f1a33;--g-muted:#5d5573;--g-accent:#7c4dff;--g-deep:#6d3ef0;
+  --g-glow:rgba(124,77,255,.28);--g-line:#cdc3e6;--g-hover:#e3dcf4;--g-panel:#fff;
+  --g-track:#cdc3e6;--g-scale:#8a80a6;--g-dis:#9a93b2;--g-shade:#d9d2ea;
+  color-scheme:light;
+}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--g-bg);color:var(--g-text);display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:16px}
 
 #gate{text-align:center;max-width:340px}
-#gate h1{font-size:22px;font-weight:600;margin-bottom:8px;color:#e9e4f5}
-#gate p{font-size:14px;color:#9a90b8;line-height:1.5;margin-bottom:20px}
+#gate h1{font-size:22px;font-weight:600;margin-bottom:8px;color:var(--g-text)}
+#gate p{font-size:14px;color:var(--g-muted);line-height:1.5;margin-bottom:20px}
 .icon-big{font-size:48px;margin-bottom:16px;display:block}
 .btn-row{display:flex;gap:10px;justify-content:center}
-button{padding:9px 22px;border-radius:8px;border:1px solid #3a2f5e;background:transparent;color:#e9e4f5;font-size:14px;cursor:pointer;transition:background .15s}
-button:hover{background:#2a2140}
-button.primary{background:linear-gradient(135deg,#a678ff,#7c4dff);border-color:transparent;color:#fff;box-shadow:0 4px 14px rgba(124,77,255,.4)}
+button{padding:9px 22px;border-radius:8px;border:1px solid var(--g-line);background:transparent;color:var(--g-text);font-size:14px;cursor:pointer;transition:background .15s}
+button:hover{background:var(--g-hover)}
+button.primary{background:linear-gradient(135deg,var(--g-accent),var(--g-deep));border-color:transparent;color:#fff;box-shadow:0 4px 14px var(--g-glow)}
 button.primary:hover{background:linear-gradient(135deg,#b18aff,#8b5cf6)}
 
 #game-wrap{display:none;flex-direction:column;align-items:center;gap:10px}
-#hud{width:520px;max-width:100%;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#9a90b8}
-#hud b{color:#e9e4f5}
+#hud{width:520px;max-width:100%;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--g-muted)}
+#hud b{color:var(--g-text)}
 
 .topbar{width:520px;max-width:100%;display:flex;justify-content:space-between;align-items:center;padding:6px 2px 10px}
-.topbar__link{color:#b09cff;text-decoration:none;font-weight:700;font-size:14px}
-.topbar__link:hover{color:#d0c2ff}
-.topbar__title{color:#9a90b8;font-size:13px}
+.topbar__link{color:var(--g-accent);text-decoration:none;font-weight:700;font-size:14px}
+.topbar__link:hover{color:var(--g-text)}
+.topbar__title{color:var(--g-muted);font-size:13px}
+.theme-toggle{display:inline-flex;align-items:center;gap:6px;background:var(--g-panel);border:1px solid var(--g-line);color:var(--g-text);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:600;cursor:pointer}
+.theme-toggle:hover{border-color:var(--g-accent);color:var(--g-accent)}
 
-canvas{border-radius:10px;border:1px solid #3a2f5e;display:block;touch-action:none}
+canvas{border-radius:10px;border:1px solid var(--g-line);display:block;touch-action:none}
 
-#ui-bar{width:520px;max-width:100%;display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;background:#1a1430;border:1px solid #3a2f5e;border-radius:12px;padding:12px 14px}
+#ui-bar{width:520px;max-width:100%;display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;background:var(--g-panel);border:1px solid var(--g-line);border-radius:12px;padding:12px 14px}
 .ctl{flex:1;min-width:150px}
-label{font-size:13px;color:#b4a8d0;display:flex;align-items:center;gap:6px;margin-bottom:8px;font-weight:700}
-label .val{background:linear-gradient(135deg,#a678ff,#7c4dff);color:#fff;border-radius:6px;padding:2px 9px;font-size:13px;min-width:34px;text-align:center}
-input[type=range]{width:100%;height:10px;-webkit-appearance:none;appearance:none;background:linear-gradient(90deg,#7c4dff,#b09cff);border-radius:6px;cursor:pointer;box-shadow:inset 0 1px 3px rgba(0,0,0,.45)}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:24px;height:24px;border-radius:50%;background:#fff;border:4px solid #7c4dff;box-shadow:0 1px 5px rgba(0,0,0,.55)}
-input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#fff;border:4px solid #7c4dff;box-shadow:0 1px 5px rgba(0,0,0,.55)}
-.scale{display:flex;justify-content:space-between;font-size:11px;color:#6a5f8a;margin-top:5px;font-weight:600}
-#throw-btn{padding:12px 26px;background:linear-gradient(135deg,#a678ff,#7c4dff);border:none;border-radius:10px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;white-space:nowrap;box-shadow:0 2px 6px rgba(124,77,255,.4)}
+label{font-size:13px;color:var(--g-muted);display:flex;align-items:center;gap:6px;margin-bottom:8px;font-weight:700}
+label .val{background:linear-gradient(135deg,var(--g-accent),var(--g-deep));color:#fff;border-radius:6px;padding:2px 9px;font-size:13px;min-width:34px;text-align:center}
+input[type=range]{width:100%;height:10px;-webkit-appearance:none;appearance:none;background:linear-gradient(90deg,var(--g-deep),var(--g-accent));border-radius:6px;cursor:pointer;box-shadow:inset 0 1px 3px rgba(0,0,0,.45)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:24px;height:24px;border-radius:50%;background:#fff;border:4px solid var(--g-deep);box-shadow:0 1px 5px rgba(0,0,0,.55)}
+input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#fff;border:4px solid var(--g-deep);box-shadow:0 1px 5px rgba(0,0,0,.55)}
+.scale{display:flex;justify-content:space-between;font-size:11px;color:var(--g-scale);margin-top:5px;font-weight:600}
+#throw-btn{padding:12px 26px;background:linear-gradient(135deg,var(--g-accent),var(--g-deep));border:none;border-radius:10px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;white-space:nowrap;box-shadow:0 2px 6px var(--g-glow)}
 #throw-btn:hover{background:linear-gradient(135deg,#b18aff,#8b5cf6)}
-#throw-btn:disabled{background:#2a2140;color:#555;cursor:default;box-shadow:none}
+#throw-btn:disabled{background:var(--g-hover);color:var(--g-dis);cursor:default;box-shadow:none}
 
-#msg-bar{height:22px;font-size:14px;font-weight:500;color:#e9e4f5;text-align:center}
-#restart-btn{display:none;padding:9px 22px;border-radius:8px;border:1px solid #3a2f5e;background:transparent;color:#e9e4f5;font-size:14px;cursor:pointer}
-#restart-btn:hover{background:#2a2140}
+#msg-bar{height:22px;font-size:14px;font-weight:500;color:var(--g-text);text-align:center}
+#restart-btn{display:none;padding:9px 22px;border-radius:8px;border:1px solid var(--g-line);background:transparent;color:var(--g-text);font-size:14px;cursor:pointer}
+#restart-btn:hover{background:var(--g-hover)}
 </style>
 </head>
 <body>
+<script>
+  try {
+    var t = localStorage.getItem('mve-theme');
+    if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+  } catch (e) {}
+</script>
 
 <div class="topbar">
   <a class="topbar__link" href="index.html">← МосВодоЭксплуатация</a>
   <span class="topbar__title">Меткий инспектор</span>
+  <button type="button" id="themeToggle" class="theme-toggle" aria-label="Переключить тему"><span>◐</span><span class="theme-toggle__label">Светлая</span></button>
 </div>
 
 <div id="gate">
@@ -279,15 +300,15 @@ function drawMeter(){
 }
 
 function drawWall(){
-  ctx.fillStyle='#241c3c';
+  ctx.fillStyle=readCssVar('--g-track','#241c3c');
   ctx.fillRect(W*0.55,0,W*0.45,H);
-  ctx.strokeStyle='#322a52';ctx.lineWidth=1;
+  ctx.strokeStyle=readCssVar('--g-line','#322a52');ctx.lineWidth=1;
   for(let y=20;y<H;y+=30){
     for(let x=Math.ceil(W*0.55/80)*80;x<W;x+=80){
       ctx.strokeRect(x+(y%60<30?0:40),y,78,28);
     }
   }
-  ctx.strokeStyle='#2a2140';
+  ctx.strokeStyle=readCssVar('--g-shade','#2a2140');
   for(let y=20;y<H;y+=30)ctx.strokeRect(W*0.55,y,W,28);
 }
 
@@ -396,16 +417,23 @@ function drawBoom(){
 }
 
 function drawFloor(){
-  ctx.fillStyle='#1a1430';
+  ctx.fillStyle=readCssVar('--g-line','#2a2140');
   ctx.fillRect(0,H-30,W*0.56,30);
-  ctx.fillStyle='#241c3c';
+  ctx.fillStyle=readCssVar('--g-track','#241c3c');
   ctx.fillRect(0,H-8,W*0.56,8);
+}
+
+function readCssVar(name, fallback){
+  try{
+    const v=getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    return v||fallback;
+  }catch(e){return fallback;}
 }
 
 function drawBg(){
   const g=ctx.createLinearGradient(0,0,0,H);
-  g.addColorStop(0,'#181230');
-  g.addColorStop(1,'#120e1f');
+  g.addColorStop(0,readCssVar('--g-bg','#181230'));
+  g.addColorStop(1,readCssVar('--g-bg','#120e1f'));
   ctx.fillStyle=g;
   ctx.fillRect(0,0,W,H);
   ctx.fillStyle='rgba(166,120,255,0.12)';
@@ -427,6 +455,7 @@ function draw(){
 }
 
 draw();
+document.addEventListener('themechange', function(){ draw(); });
 </script>
 </body>
 </html>

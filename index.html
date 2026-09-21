@@ -94,8 +94,15 @@
 }
 </script>
 <link rel="stylesheet" href="styles.css">
+<script src="theme.js" defer></script>
 </head>
 <body>
+<script>
+  try {
+    var t = localStorage.getItem('mve-theme');
+    if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+  } catch (e) {}
+</script>
 
 <header class="top">
   <div class="topbar">
@@ -115,6 +122,10 @@
       <a href="game.html">Игра</a>
       <a href="#" id="navPhone" class="nav__phone">+7 903 713-88-38</a>
       <a href="#order" class="btn btn--ghost">Заказать</a>
+      <button type="button" id="themeToggle" class="theme-toggle" aria-label="Переключить тему">
+        <span class="theme-toggle__icon">◐</span>
+        <span class="theme-toggle__label">Светлая</span>
+      </button>
     </nav>
   </div>
 </header>
