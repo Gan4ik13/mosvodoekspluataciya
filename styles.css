@@ -98,7 +98,9 @@ nav a:not(.btn):hover { color: var(--text); }
   background: #fff; border: 1px solid rgba(255,255,255,.9);
   color: #231a3a; padding: 6px 16px 6px 8px; border-radius: 999px; font-size: 14px;
   box-shadow: 0 4px 16px rgba(0,0,0,.35);
+  cursor: pointer;
 }
+.badge-partner:hover { box-shadow: 0 6px 22px rgba(166,120,255,.35); transform: translateY(-1px); }
 .badge-partner img { height: 22px; width: auto; }
 .badge-partner b { font-weight: 800; letter-spacing: .2px; }
 .hero__sub { position: relative; max-width: 640px; margin: 22px auto 0; color: var(--muted); font-size: 18px; }
@@ -187,19 +189,16 @@ nav a:not(.btn):hover { color: var(--text); }
 .hint { margin-top: 18px; color: var(--muted); font-size: 14px; }
 
 /* ===== Бренды ===== */
-.brands { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; }
-.brands span {
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  padding: 16px 10px; background: var(--card); border: 1px solid var(--line);
-  border-radius: 12px; color: var(--text); font-size: 15px; font-weight: 600;
-  transition: .2s;
+.brands { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.brand-tile {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding: 16px 10px 12px; background: var(--card); border: 1px solid var(--line);
+  border-radius: 14px; transition: .2s;
 }
-.brands span::before {
-  content: "✓"; width: 18px; height: 18px; flex: none; display: grid; place-items: center;
-  background: var(--accent-soft); border: 1px solid var(--accent-border);
-  color: var(--accent); border-radius: 50%; font-size: 11px; font-weight: 800;
-}
-.brands span:hover { border-color: var(--accent-border); color: var(--accent); transform: translateY(-1px); }
+.brand-tile img { width: 64px; height: 44px; object-fit: contain; }
+.brand-tile span { color: var(--text); font-size: 15px; font-weight: 600; }
+.brand-tile:hover { border-color: var(--accent-border); transform: translateY(-2px); }
+.brand-tile:hover span { color: var(--accent); }
 
 /* ===== FAQ ===== */
 .faq { max-width: 760px; margin: 0 auto; }
