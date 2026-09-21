@@ -76,19 +76,24 @@ a { color: var(--link); text-decoration: none; }
 .topbar__link:hover { background: var(--accent); color: #fff; }
 
 .topbar-inner {
-  max-width: 1180px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between;
-  padding: 13px 5%;
+  max-width: 1180px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px;
+  padding: 13px 5% 12px;
 }
 
+.brand-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap;
+}
 .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 20px; }
-.brand__name { line-height: 1.1; }
+.brand__name { line-height: 1.1; white-space: nowrap; }
 .logo {
-  width: 34px; height: 34px; display: grid; place-items: center;
+  width: 34px; height: 34px; flex: none; display: grid; place-items: center;
   background: linear-gradient(135deg, var(--accent), var(--accent-deep));
   border-radius: 10px; color: #fff; font-weight: 800; box-shadow: 0 2px 10px rgba(141,95,246,.35);
 }
+.header__phone { color: var(--text) !important; font-weight: 800; white-space: nowrap; text-decoration: none; font-size: 18px; }
+.header__phone:hover { color: var(--accent) !important; }
 
-nav { display: flex; gap: 22px; align-items: center; }
+nav { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
 nav a:not(.btn) { color: var(--muted); transition: color .2s; }
 nav a:not(.btn):hover { color: var(--text); }
 .nav__phone { color: var(--text) !important; font-weight: 700; }
@@ -314,10 +319,13 @@ nav a:not(.btn):hover { color: var(--text); }
 .footer__small { font-size: 13px; margin-top: 6px; }
 
 /* ===== Адаптив ===== */
+@media (max-width: 1020px) {
+  nav { justify-content: center; }
+}
 @media (max-width: 820px) {
   nav { gap: 14px; }
-  nav a:not(.btn):not(#navPhone) { display: none; }
-  .nav__phone { display: inline-block; }
+  nav a:not(.btn) { display: none; }
+  .brand-row { justify-content: center; }
   .hero { padding-top: 56px; }
   .section { padding-top: 52px; padding-bottom: 52px; }
   .section--alt { padding-top: 52px; padding-bottom: 52px; }
