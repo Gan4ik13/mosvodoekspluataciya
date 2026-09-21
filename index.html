@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>МосВодоЭксплуатация — поверка счётчиков воды 600 ₽, выезд в день обращения</title>
-<meta name="description" content="Поверка счётчиков воды и тепла в Москве: 600 ₽ за прибор, выезд в день обращения, поверка на месте без демонтажа, запись во ФГИС Аршин. Замена счётчиков от 1 500 ₽. Звоните +7 903 713-88-38.">
+<title>МосВодоЭксплуатация — поверка счётчиков воды в Москве, аттестат аккредитации</title>
+<meta name="description" content="Поверка счётчиков воды в Москве: от 600 ₽ за прибор, выезд в день обращения, поверка на месте без демонтажа, запись во ФГИС Аршин. Аттестат аккредитации № RA.RU.314074. Замена и установка счётчиков. Звоните +7 903 713-88-38.">
 <meta property="og:title" content="МосВодоЭксплуатация — поверка счётчиков">
-<meta property="og:description" content="Поверка 600 ₽/прибор, выезд в день обращения, аккредитация + ФГИС Аршин. +7 903 713-88-38">
+<meta property="og:description" content="Поверка от 600 ₽/прибор, выезд в день обращения, аттестат аккредитации + ФГИС Аршин. +7 903 713-88-38">
 <meta property="og:type" content="website">
 <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
 <script>window.MVE = { bot: "https://t.me/mosvodoexp_bot", channel: "https://t.me/mosvodoexp", phoneLink: "tel:+79037138838", phoneText: "+7 903 713-88-38" };</script>
@@ -14,11 +14,83 @@
 {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
+  "@id": "https://poverka-mve.ru/#localbusiness",
   "name": "МосВодоЭксплуатация",
-  "description": "Поверка и замена счётчиков воды и тепла в Москве. Аккредитованная организация, запись во ФГИС Аршин.",
+  "description": "Поверка счётчиков воды и тепла в Москве. Аккредитованная метрологическая служба, аттестат аккредитации № RA.RU.314074, запись результатов во ФГИС «Аршин».",
+  "url": "https://poverka-mve.ru/",
   "telephone": "+7-903-713-88-38",
-  "priceRange": "от 600 ₽",
-  "areaServed": "Москва"
+  "email": "info@мосводоэксплуатация.рф",
+  "priceRange": "450-3900",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "пр-д Полесский, д. 16, с. 1, офис 314",
+    "addressLocality": "Москва",
+    "postalCode": "125367",
+    "addressCountry": "RU"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 55.774051,
+    "longitude": 37.665686
+  },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+    "opens": "09:00",
+    "closes": "21:00"
+  },
+  "identifier": [
+    { "@type": "PropertyValue", "name": "ОГРН", "value": "1217700159192" },
+    { "@type": "PropertyValue", "name": "ИНН", "value": "9703031418" },
+    { "@type": "PropertyValue", "name": "КПП", "value": "773301001" },
+    { "@type": "PropertyValue", "name": "Аттестат аккредитации", "value": "№ RA.RU.314074" }
+  ],
+  "areaServed": { "@type": "City", "name": "Москва" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "@id": "https://poverka-mve.ru/#service",
+  "name": "Поверка счётчиков воды в Москве",
+  "description": "Аккредитованная поверка счётчиков воды на месте, без демонтажа, с записью во ФГИС «Аршин». Выезд в день обращения.",
+  "url": "https://poverka-mve.ru/",
+  "provider": { "@id": "https://poverka-mve.ru/#localbusiness" },
+  "areaServed": { "@type": "City", "name": "Москва" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Как часто нужно поверять счётчики воды?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Счётчики холодной воды поверяются раз в 6 лет. Счётчики горячей воды, выпущенные до середины 2010-х годов, — раз в 4 года. Точный срок указан в паспорте прибора и в квитанции УК." }
+    },
+    {
+      "@type": "Question",
+      "name": "Почему поверку может делать только аккредитованная служба?",
+      "acceptedAnswer": { "@type": "Answer", "text": "По ФЗ № 102 поверку средств измерений выполняют организации, аккредитованные в Росаккредитации. УК и расчётные центры принимают документы только таких служб, а доступ к госреестру «Аршин» есть только у организации с аттестатом." }
+    },
+    {
+      "@type": "Question",
+      "name": "Как проходит поверка без снятия?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Мастер приезжает с переносной эталонной установкой и работает в 4 этапа: внешний осмотр счётчика и пломб, проверка герметичности, прогон воды и сверка показаний прибора с эталоном. Демонтаж не нужен." }
+    },
+    {
+      "@type": "Question",
+      "name": "Что будет, если не поверить счётчик вовремя?",
+      "acceptedAnswer": { "@type": "Answer", "text": "По закону просроченный счётчик считается непригодным, его показания не учитывают. УК переводит плату на норматив с повышающим коэффициентом — вместо 700–1 000 ₽ в месяц по счётчику приходит 3 000–7 000 ₽." }
+    },
+    {
+      "@type": "Question",
+      "name": "Что делать после поверки?",
+      "acceptedAnswer": { "@type": "Answer", "text": "МосВодоЭксплуатация вносит результат в ФГИС «Аршин» и сообщает номер записи. Остаётся подать сведения в УК или ЕИРЦ — в Москве также через mos.ru, «Мосводоканал», Госуслуги, ГИС ЖКХ, МФЦ." }
+    }
+  ]
 }
 </script>
 <link rel="stylesheet" href="styles.css">
@@ -26,25 +98,38 @@
 <body>
 
 <header class="top">
-  <div class="brand">
-    <img src="assets/logo.svg" alt="МосВодоЭксплуатация" width="34" height="34">
-    <span class="brand__name">МосВо<wbr>доЭксплуатация</span>
+  <div class="topbar">
+    <span class="topbar__text">Наш аттестат аккредитации: № RA.RU.314074</span>
+    <a href="#" id="attestLink" class="topbar__link">Проверить на сайте Росаккредитации</a>
   </div>
-  <nav>
-    <a href="#services">Услуги</a>
-    <a href="#prices">Цены</a>
-    <a href="#how">Как работаем</a>
-    <a href="game.html">Игра</a>
-    <a href="#" id="navPhone" class="nav__phone">+7 903 713-88-38</a>
-    <a href="#order" class="btn btn--ghost">Заказать</a>
-  </nav>
+  <div class="topbar-inner">
+    <div class="brand">
+      <img src="assets/logo.svg" alt="МосВодоЭксплуатация" width="34" height="34">
+      <span class="brand__name">МосВо<wbr>доЭксплуатация</span>
+    </div>
+    <nav>
+      <a href="#services">Услуги</a>
+      <a href="#prices">Цены</a>
+      <a href="#how">Как работаем</a>
+      <a href="#registry">Документы</a>
+      <a href="game.html">Игра</a>
+      <a href="#" id="navPhone" class="nav__phone">+7 903 713-88-38</a>
+      <a href="#order" class="btn btn--ghost">Заказать</a>
+    </nav>
+  </div>
 </header>
 
 <section class="hero">
-  <h1>Поверка счётчиков в Москве<br><span>600 ₽ за прибор, выезд в день обращения</span></h1>
-  <p class="hero__sub">Аккредитованная организация. Поверяем счётчики воды и тепла на месте,
-     без демонтажа, с записью в реестр ФГИС «Аршин» — УК примет документы без вопросов.
-     Замена счётчиков, любые диаметры.</p>
+  <div class="hero__badges">
+    <span class="badge-partner">
+      <img src="assets/mos-ru.svg" alt="" width="22" height="22">
+      <b>Партнёр mos.ru</b>
+    </span>
+  </div>
+  <h1>Поверка счётчиков в Москве<br><span>выезд мастера в день обращения</span></h1>
+  <p class="hero__sub">Аккредитованная метрологическая служба (аттестат № RA.RU.314074).
+     Поверяем счётчики воды и тепла на месте, без демонтажа, с записью в реестр ФГИС «Аршин» —
+     УК примет документы без вопросов. Замена и установка счётчиков.</p>
   <div class="hero__cta">
     <a href="#order" class="btn btn--primary">Рассчитать и заказать</a>
     <a href="#" id="heroBot" class="btn btn--ghost">Написать в Telegram</a>
@@ -53,8 +138,8 @@
   <ul class="hero__facts">
     <li>Выезд в день обращения</li>
     <li>Без демонтажа, 20–30 минут</li>
-    <li>Аккредитация + ФГИС «Аршин»</li>
-    <li>600 ₽ за прибор, без сюрпризов</li>
+    <li>Аттестат аккредитации + ФГИС «Аршин»</li>
+    <li>Один прибор от 600 ₽, коллективная заявка — от 400 ₽</li>
   </ul>
 </section>
 
@@ -63,38 +148,92 @@
   <div class="cards">
     <div class="card card--hot">
       <h3>Поверка счётчика воды</h3>
-      <p>Эталонная установка, прогон воды, акт о пригодности. Счётчик остаётся на месте, демонтаж не нужен.</p>
-      <span class="card__tag">600 ₽/прибор</span>
+      <p>Эталонная установка, прогон воды, акт проведения поверки. Счётчик остаётся на месте, демонтаж не нужен.</p>
+      <span class="card__tag">от 600 ₽/прибор</span>
     </div>
     <div class="card">
       <h3>Замена счётчика</h3>
       <p>Счётчик + монтаж + опломбировка + документы для УК. Новый межповерочный интервал с первого дня.</p>
-      <span class="card__tag">от 1 500 ₽</span>
+      <span class="card__tag">от 1 000 ₽</span>
+    </div>
+    <div class="card">
+      <h3>Установка счётчика</h3>
+      <p>Монтаж нового прибора учёта с оформлением ввода в эксплуатацию для УК и агрегаты для Мосводоканала.</p>
+      <span class="card__tag">от 1 200 ₽</span>
     </div>
     <div class="card">
       <h3>Счётчики тепла</h3>
       <p>Поверка теплосчётчиков и узлов учёта для ТСЖ, управляющих компаний и котельных.</p>
-      <span class="card__tag">по диаметру</span>
+      <span class="card__tag">от 3 500 ₽</span>
     </div>
-    <div class="card">
-      <h3>Промышленные диаметры</h3>
-      <p>Узлы учёта Ду 15–200 и выше, коммерческий учёт, срочные выезды, документы для ресурсоснабжающей организации.</p>
-      <span class="card__tag">по запросу</span>
-    </div>
+  </div>
+  <p class="hint">Работаем со всеми популярными счётчиками: Норма, Itelma, Valtec, Пульсар, Экомера, Decast, Бетар и любыми другими.</p>
+</section>
+
+<section id="registry" class="section section--alt">
+  <h2>Документы и реестры</h2>
+  <div class="registry">
+    <a class="registry-card" href="https://pub.fsa.gov.ru/ral/view/34923/applicant" target="_blank" rel="nofollow">
+      <span class="registry-card__img">
+        <img src="assets/in-house-1.png" alt="Росаккредитация" width="48" height="48">
+      </span>
+      <span class="registry-card__body">
+        <b>Росаккредитация</b>
+        <p>Карточка аккредитованного лица. Проверьте наш аттестат № RA.RU.314074 в государственном реестре.</p>
+        <em class="registry-card__go">Перейти на портал →</em>
+      </span>
+    </a>
+    <a class="registry-card" href="https://fgis.gost.ru/fundmetrology/cm/results?search=%D0%BC%D0%BE%D1%81%D0%B2%D0%BE%D0%B4%D0%BE%D1%8D%D0%BA%D1%81%D0%BF%D0%BB%D1%83%D0%B0%D1%82%D0%B0%D1%86%D0%B8%D1%8F" target="_blank" rel="nofollow">
+      <span class="registry-card__img">
+        <img src="assets/in-house-2.png" alt="ФГИС Аршин" width="48" height="48">
+      </span>
+      <span class="registry-card__body">
+        <b>ФГИС «Аршин»</b>
+        <p>Реестр результатов поверок Росстандарта. Каждый наш счётчик вносится в базу — вы это увидите в поиске.</p>
+        <em class="registry-card__go">Проверить в реестре →</em>
+      </span>
+    </a>
   </div>
 </section>
 
-<section id="prices" class="section section--alt">
+<section id="prices" class="section">
   <h2>Сколько это стоит</h2>
+  <div class="pricegrid">
+    <div class="pricecard">
+      <h3>Один прибор</h3>
+      <p class="pricecard__price">от 600 ₽</p>
+      <p class="pricecard__note">ХВС или ГВС, 20–30 минут, без демонтажа</p>
+    </div>
+    <div class="pricecard pricecard--hot">
+      <h3>Два счётчика</h3>
+      <p class="pricecard__price">от 500 ₽ / прибор</p>
+      <p class="pricecard__note">ХВС + ГВС вместе — от 1 000 ₽ за оба</p>
+    </div>
+    <div class="pricecard">
+      <h3>Коллективная заявка</h3>
+      <p class="pricecard__price">от 400 ₽ / прибор</p>
+      <p class="pricecard__note">10+ приборов: дом, подъезд, ТСЖ, УК</p>
+    </div>
+  </div>
   <table class="pricetable">
     <tr><th>Услуга</th><th>Цена</th><th>Примечание</th></tr>
-    <tr><td>Поверка счётчика воды</td><td>600 ₽ за прибор</td><td>20–30 минут, без демонтажа</td></tr>
-    <tr><td>Поверка двух (ХВС + ГВС)</td><td>1 200 ₽</td><td>стандартная квартира</td></tr>
-    <tr><td>Замена счётчика</td><td>от 1 500 ₽</td><td>счётчик + монтаж + пломба</td></tr>
-    <tr><td>Счётчики тепла</td><td>по диаметру</td><td>МКД, ТСЖ, котельные</td></tr>
-    <tr><td>Промышленные диаметры</td><td>по запросу</td><td>Ду 15–200+, коммерческий учёт</td></tr>
+    <tr><td>Поверка счётчика воды</td><td>от 600 ₽/прибор</td><td>20–30 минут, без демонтажа</td></tr>
+    <tr><td>Поверка двух (ХВС + ГВС)</td><td>от 500 ₽/прибор</td><td>стандартная квартира, от 1 000 ₽ за оба</td></tr>
+    <tr><td>Коллективная заявка</td><td>от 400 ₽/прибор</td><td>от 10 приборов</td></tr>
+    <tr><td>Замена счётчика</td><td>от 1 000 ₽</td><td>счётчик + монтаж + пломба</td></tr>
+    <tr><td>Установка счётчика</td><td>от 1 200 ₽</td><td>ввод в эксплуатацию, документы для УК</td></tr>
+    <tr><td>Счётчики тепла</td><td>от 3 500 ₽</td><td>МКД, ТСЖ, котельные</td></tr>
   </table>
-  <p class="hint">Цена, названная по телефону, не меняется на месте. Выезд по Москве — бесплатный. Результат поверки вносим в ФГИС «Аршин».</p>
+  <p class="hint">Цена, названная по телефону, не меняется на месте. Выезд по Москве — бесплатный. Результат поверки вносим в ФГИС «Аршин». Даём скидки льготникам.</p>
+</section>
+
+<section class="section" id="brands">
+  <h2>Какие счётчики поверяем</h2>
+  <div class="brands">
+    <span>Норма</span><span>Itelma</span><span>ЭКО НОМ</span><span>Valtec</span>
+    <span>Пульсар</span><span>Экомера</span><span>Пульс</span><span>Метер</span>
+    <span>Decast</span><span>Тепловодомер</span><span>Бетар</span><span>Любой</span>
+  </div>
 </section>
 
 <section id="how" class="section">
@@ -102,9 +241,35 @@
   <ol class="steps">
     <li><b>Заявка</b> — заполни форму, напиши в Telegram или позвони оператору.</li>
     <li><b>Подтверждение</b> — оператор перезванивает и называет точное время выезда (в день обращения).</li>
-    <li><b>Поверка</b> — приезжает поверитель, 20–30 минут работы на месте.</li>
-    <li><b>Документы</b> — акт + запись во ФГИС «Аршин», передаёте номер в УК и забываете на 6 лет.</li>
+    <li><b>Поверка</b> — приезжает мастер, 20–30 минут работы на месте.</li>
+    <li><b>Документы</b> — акт проведения поверки + запись во ФГИС «Аршин», передаёте номер в УК и забываете на 6 лет.</li>
   </ol>
+</section>
+
+<section class="section section--alt">
+  <h2>Частые вопросы</h2>
+  <div class="faq">
+    <details class="faq__item">
+      <summary>Как часто нужно поверять счётчики воды?</summary>
+      <p>Счётчики холодной воды поверяются раз в 6 лет. Счётчики горячей воды, выпущенные до середины 2010-х годов, — раз в 4 года. Точный срок указан в паспорте прибора и в квитанции УК. Не ждите последнего дня: подать документы нужно за 3 месяца до окончания срока, после 90 дней просрочки плата переходит на норматив с повышающим коэффициентом.</p>
+    </details>
+    <details class="faq__item">
+      <summary>Почему поверку может делать только аккредитованная служба?</summary>
+      <p>По ФЗ № 102 поверку средств измерений выполняют организации, аккредитованные в Росаккредитации. УК и расчётные центры принимают документы только таких служб, а доступ к госреестру «Аршин» есть только у организации с аттестатом. У нас он есть — № RA.RU.314074, проверяется на портале Росаккредитации.</p>
+    </details>
+    <details class="faq__item">
+      <summary>Как проходит поверка без снятия?</summary>
+      <p>Мастер приезжает с переносной эталонной установкой и работает в 4 этапа: внешний осмотр счётчика и пломб, проверка герметичности, прогон воды и сверка показаний прибора с эталоном. Демонтаж не нужен. При неисправности оформляется протокол и предлагается замена счётчика.</p>
+    </details>
+    <details class="faq__item">
+      <summary>Что будет, если не поверить счётчик вовремя?</summary>
+      <p>По закону просроченный счётчик считается непригодным, его показания не учитывают. УК переводит плату на норматив с повышающим коэффициентом — вместо 700–1 000 ₽ в месяц по счётчику приходит 3 000–7 000 ₽. Одна поверка закрывает проблему на 6 лет.</p>
+    </details>
+    <details class="faq__item">
+      <summary>Что делать после поверки?</summary>
+      <p>Мы вносим результат в ФГИС «Аршин» и сообщаем номер записи. Вам остаётся подать сведения в свою УК или ЕИРЦ (в Москве также через mos.ru, «Мосводоканал», Госуслуги, ГИС ЖКХ, МФЦ). Часто достаточно номера записи в «Аршине».</p>
+    </details>
+  </div>
 </section>
 
 <section id="order" class="section section--cta">
@@ -116,6 +281,7 @@
       <select name="service">
         <option value="verify">Поверка счётчика воды</option>
         <option value="replace">Замена счётчика</option>
+        <option value="install">Установка счётчика</option>
         <option value="heat">Тепло / промышленные диаметры</option>
       </select>
     </label>
@@ -131,9 +297,20 @@
   </form>
 </section>
 
+<section class="attestmodal" id="attestModal" aria-hidden="true">
+  <div class="attestmodal__box">
+    <button class="attestmodal__close" id="attestClose" type="button" aria-label="Закрыть">×</button>
+    <img class="attestmodal__photo" src="assets/attestation.jpg" alt="Аттестат аккредитации № RA.RU.314074">
+    <p>Аттестат аккредитации № RA.RU.314074. Проверьте подлинность в реестре Росаккредитации:</p>
+    <a class="btn btn--primary btn--full" href="https://pub.fsa.gov.ru/ral/view/34923/applicant" target="_blank" rel="nofollow">Проверить на pub.fsa.gov.ru</a>
+  </div>
+</section>
+
 <footer class="footer">
   <p>МосВодоЭксплуатация · <a href="#" id="footerBot">Telegram-бот</a> · <a href="https://t.me/mosvodoexp" id="footerChannel">Канал</a> · <a href="#" id="footerPhone">+7 903 713-88-38</a></p>
-  <p><a href="game.html" style="color:var(--accent)">Меткий инспектор →</a> — мини-игра: бросьте пломбу на счётчик. Не попали — самое время вызвать поверителя.</p>
+  <p class="footer__small">ООО «МосВодоЭксплуатация» · ИНН 9703031418 · ОГРН 1217700159192 · Аттестат аккредитации № RA.RU.314074</p>
+  <p class="footer__small">Адрес: 125367, Москва, пр-д Полесский, д. 16, с. 1, офис 314 · Ежедневно 9:00–21:00</p>
+  <p><a href="game.html" style="color:var(--accent)">Меткий инспектор →</a> — мини-игра: бросьте пломбу на счётчик. Не попали — самое время вызвать мастера.</p>
   <p class="footer__small">Аккредитованная организация. Поверка средств измерений по 102-ФЗ, запись во ФГИС «Аршин». Работаем в Москве.</p>
 </footer>
 
@@ -147,7 +324,25 @@
   });
   document.getElementById('navPhone').textContent = K.phoneText;
 
-  var names = { verify: 'Поверка счётчика', replace: 'Замена счётчика', heat: 'Тепло / пром.' };
+  var modal = document.getElementById('attestModal');
+  document.getElementById('attestLink').addEventListener('click', function (e) {
+    e.preventDefault();
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  });
+  function closeModal() {
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('attestClose').addEventListener('click', closeModal);
+  modal.addEventListener('click', function (e) {
+    if (e.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  var names = { verify: 'Поверка счётчика', replace: 'Замена счётчика', install: 'Установка счётчика', heat: 'Тепло / пром.' };
   var form = document.getElementById('orderForm');
   var status = document.getElementById('formStatus');
 
