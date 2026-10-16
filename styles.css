@@ -125,7 +125,7 @@ nav a:not(.btn):hover { color: var(--text); }
 .btn--ghost { border-color: var(--line2); color: var(--text); background: transparent; }
 .btn--ghost:hover { border-color: var(--accent); color: var(--accent); }
 .btn--full { width: 100%; font-size: 16px; padding: 14px; }
-.nav-call { display: none; }
+.only-mobile { display: none; }
 
 /* ===== Hero ===== */
 .hero {
@@ -323,7 +323,7 @@ nav a:not(.btn):hover { color: var(--text); }
 @media (max-width: 820px) {
   nav { gap: 14px; }
   nav a:not(.btn) { display: none; }
-  .nav-call { display: inline-block; }
+  .only-mobile { display: inline-block; }
   .brand-row { justify-content: center; }
   .hero { padding-top: 56px; }
   .section { padding-top: 52px; padding-bottom: 52px; }
