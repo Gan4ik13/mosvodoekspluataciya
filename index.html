@@ -123,7 +123,7 @@
       <a href="#how">Как работаем</a>
       <a href="#registry">Документы</a>
       <a href="game.html">Игра</a>
-      <a href="#order" class="btn btn--ghost">Заказать</a>
+      <a href="tel:+79037138838" class="btn btn--ghost">Позвонить</a>
       <button type="button" id="themeToggle" class="theme-toggle" aria-label="Переключить тему">
         <span class="theme-toggle__icon">◐</span>
         <span class="theme-toggle__label">Светлая</span>
@@ -144,10 +144,12 @@
      Поверяем счётчики воды и тепла на месте, без демонтажа, с записью в реестр ФГИС «Аршин» —
      УК примет документы без вопросов. Замена и установка счётчиков.</p>
   <div class="hero__cta">
-    <a href="#order" class="btn btn--primary">Рассчитать и заказать</a>
-    <a href="#" id="heroBot" class="btn btn--ghost">Написать в Telegram</a>
-    <a href="https://t.me/mosvodoexp" id="heroChannel" class="btn btn--ghost">Канал про поверку</a>
+    <a href="tel:+79037138838" class="btn btn--primary">Позвонить оператору</a>
   </div>
+  <a class="tg-promo" href="https://t.me/mosvodoexp" target="_blank" rel="nofollow">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+    <span>Подпишись на нас в ТГ, покажи подписку мастеру, получи скидку 10%</span>
+  </a>
   <ul class="hero__facts">
     <li>Выезд в день обращения</li>
     <li>Без демонтажа, 20–30 минут</li>
@@ -263,7 +265,7 @@
 <section id="how" class="section">
   <h2>Как это работает</h2>
   <ol class="steps">
-    <li><b>Заявка</b> — заполни форму, напиши в Telegram или позвони оператору.</li>
+    <li><b>Заявка</b> — позвоните оператору или напишите в Telegram.</li>
     <li><b>Подтверждение</b> — оператор перезванивает и называет точное время выезда (в день обращения).</li>
     <li><b>Поверка</b> — приезжает мастер, 20–30 минут работы на месте.</li>
     <li><b>Документы</b> — акт проведения поверки + запись во ФГИС «Аршин», передаёте номер в УК и забываете на 6 лет.</li>
@@ -298,31 +300,6 @@
   </div>
 </section>
 
-<section id="order" class="section section--cta">
-  <h2>Рассчитать и заказать</h2>
-  <form id="orderForm" class="form">
-    <label>Имя<input name="name" required placeholder="Иван"></label>
-    <label>Телефон или Telegram<input name="contact" required placeholder="+7 900 000-00-00 или @name"></label>
-    <label>Услуга
-      <select name="service">
-        <option value="verify">Поверка счётчика воды</option>
-        <option value="replace">Замена счётчика</option>
-        <option value="install">Установка счётчика</option>
-        <option value="heat">Тепло / промышленные диаметры</option>
-      </select>
-    </label>
-    <label>Сколько приборов<input name="units" type="number" min="1" max="50" value="2" required placeholder="2"></label>
-    <label>Диаметр (для тепла и пром.)<input name="diameter" placeholder="Ду 32, Ду 100"></label>
-    <label>Район / адрес<input name="address" required placeholder="Ясенево, ул. Федора Кона"></label>
-    <label>Когда удобен выезд<input name="date" placeholder="Например: сегодня после 16:00"></label>
-    <button type="submit" class="btn btn--primary btn--full">Отправить заявку</button>
-    <p id="formStatus" class="form__status"></p>
-    <p class="hint" style="text-align:center">
-      Или позвоните оператору: <a href="#" id="formPhone" style="color:var(--accent);font-weight:700">+7 903 713-88-38</a>
-    </p>
-  </form>
-</section>
-
 <section class="attestmodal" id="attestModal" aria-hidden="true">
   <div class="attestmodal__box">
     <button class="attestmodal__close" id="attestClose" type="button" aria-label="Закрыть">×</button>
@@ -343,7 +320,7 @@
 <script>
 (function () {
   var K = window.MVE;
-  ['navPhone', 'heroBot', 'formPhone', 'footerPhone', 'footerBot'].forEach(function (id) {
+  ['navPhone', 'footerPhone', 'footerBot'].forEach(function (id) {
     var el = document.getElementById(id);
     if (!el) return;
     el.href = (id.indexOf('Phone') !== -1) ? K.phoneLink : K.bot;
@@ -366,36 +343,6 @@
   });
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') closeModal();
-  });
-
-  var names = { verify: 'Поверка счётчика', replace: 'Замена счётчика', install: 'Установка счётчика', heat: 'Тепло / пром.' };
-  var form = document.getElementById('orderForm');
-  var status = document.getElementById('formStatus');
-
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var data = {};
-    new FormData(form).forEach(function (v, k) { data[k] = v; });
-    status.textContent = 'Отправляем…';
-
-    fetch('/order', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    }).then(function (r) { return r.json(); }).then(function (out) {
-      var pr = out.price ? ' Ориентир: ' + out.price + ' ₽' : '';
-      status.textContent = out.ok ? 'Заявка принята! Оператор перезвонит.' + pr : null;
-      if (!out.ok) openBot(data);
-      form.reset();
-    }).catch(function () { openBot(data); });
-
-    function openBot(d) {
-      var text = 'Здравствуйте! Заявка с сайта: ' + (names[d.service] || d.service) +
-                 ' (' + d.units + ' приб.). Адрес: ' + d.address +
-                 '. Удобно: ' + d.date + '. Контакт: ' + d.contact;
-      window.open(K.bot + '?text=' + encodeURIComponent(text), '_blank');
-      status.textContent = 'Открыл Telegram для отправки заявки. Если не открылось — позвоните ' + K.phoneText;
-    }
   });
 })();
 </script>
