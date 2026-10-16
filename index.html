@@ -9,7 +9,7 @@
 <meta property="og:description" content="Поверка от 400 ₽/прибор, выезд в день обращения, аттестат аккредитации + ФГИС Аршин. +7 903 713-88-38">
 <meta property="og:type" content="website">
 <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
-<script>window.MVE = { bot: "https://t.me/mosvodoexp_bot", channel: "https://t.me/mosvodoexp", phoneLink: "tel:+79037138838", phoneText: "+7 903 713-88-38" };</script>
+<script>window.MVE = { channel: "https://t.me/mosvodoexp", phoneLink: "tel:+79037138838", phoneText: "+7 903 713-88-38" };</script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -265,8 +265,8 @@
 <section id="how" class="section">
   <h2>Как это работает</h2>
   <ol class="steps">
-    <li><b>Заявка</b> — позвоните оператору или напишите в Telegram.</li>
-    <li><b>Подтверждение</b> — оператор перезванивает и называет точное время выезда (в день обращения).</li>
+    <li><b>Заявка</b> — позвоните оператору.</li>
+    <li><b>Подтверждение</b> — оператор перезванивает и называет точное время выезда.</li>
     <li><b>Поверка</b> — приезжает мастер, 20–30 минут работы на месте.</li>
     <li><b>Документы</b> — акт проведения поверки + запись во ФГИС «Аршин», передаёте номер в УК и забываете на 6 лет.</li>
   </ol>
@@ -310,7 +310,7 @@
 </section>
 
 <footer class="footer">
-  <p>МосВодоЭксплуатация · <a href="#" id="footerBot">Telegram-бот</a> · <a href="https://t.me/mosvodoexp" id="footerChannel">Канал</a> · <a href="#" id="footerPhone">+7 903 713-88-38</a></p>
+  <p>МосВодоЭксплуатация · <a href="https://t.me/mosvodoexp" id="footerChannel">Наш канал в Telegram</a> · <a href="#" id="footerPhone">+7 903 713-88-38</a></p>
   <p class="footer__small">ООО «МосВодоЭксплуатация» · ИНН 9703031418 · ОГРН 1217700159192 · Аттестат аккредитации № RA.RU.314074</p>
   <p class="footer__small">Адрес: 125367, Москва, пр-д Полесский, д. 16, с. 1, офис 314 · Ежедневно 9:00–21:00</p>
   <p><a href="game.html" style="color:var(--accent)">Меткий инспектор →</a> — мини-игра: бросьте пломбу на счётчик. Не попали — самое время вызвать мастера.</p>
@@ -320,10 +320,10 @@
 <script>
 (function () {
   var K = window.MVE;
-  ['navPhone', 'footerPhone', 'footerBot'].forEach(function (id) {
+  ['navPhone', 'footerPhone'].forEach(function (id) {
     var el = document.getElementById(id);
     if (!el) return;
-    el.href = (id.indexOf('Phone') !== -1) ? K.phoneLink : K.bot;
+    el.href = K.phoneLink;
   });
   document.getElementById('navPhone').textContent = K.phoneText;
 
