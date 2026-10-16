@@ -64,14 +64,14 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;bac
 <script>
   try {
     var t = localStorage.getItem('mve-theme');
-    if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+    if (t !== 'dark') document.documentElement.setAttribute('data-theme', 'light');
   } catch (e) {}
 </script>
 
 <div class="topbar">
   <a class="topbar__link" href="index.html">← МосВодоЭксплуатация</a>
   <span class="topbar__title">Меткий инспектор</span>
-  <button type="button" id="themeToggle" class="theme-toggle" aria-label="Переключить тему"><span>◐</span><span class="theme-toggle__label">Светлая</span></button>
+  <button type="button" id="themeToggle" class="theme-toggle" aria-label="Переключить тему"><span>◐</span><span class="theme-toggle__label">Тёмная</span></button>
 </div>
 
 <div id="gate">

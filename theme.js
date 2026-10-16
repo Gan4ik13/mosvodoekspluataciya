@@ -16,9 +16,7 @@
   function init() {
     var saved = null;
     try { saved = localStorage.getItem('mve-theme'); } catch (e) {}
-    var theme = saved === 'light' || saved === 'dark'
-      ? saved
-      : (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    var theme = saved === 'dark' ? 'dark' : 'light';
     apply(theme, false);
   }
 
