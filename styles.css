@@ -51,6 +51,7 @@ body {
   color: var(--text);
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 a { color: var(--link); text-decoration: none; }
@@ -329,4 +330,21 @@ nav a:not(.btn):hover { color: var(--text); }
   .section { padding-top: 52px; padding-bottom: 52px; }
   .section--alt { padding-top: 52px; padding-bottom: 52px; }
   .step { font-size: 15px; }
+  .btn { min-height: 44px; display: inline-flex; align-items: center; }
+  .theme-toggle { min-height: 44px; min-width: 44px; justify-content: center; }
+}
+/* Таблица цен в карточки на узких экранах */
+@media (max-width: 640px) {
+  .pricetable, .pricetable tbody, .pricetable tr, .pricetable td { display: block; width: 100%; }
+  .pricetable thead { display: none; }
+  .pricetable tr {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+  }
+  .pricetable td { border-bottom: none; padding: 2px 0; font-size: 14px; }
+  .pricetable td:first-child { font-weight: 700; font-size: 15px; }
+  .pricetable td:nth-child(2) { color: var(--accent); font-weight: 700; }
 }

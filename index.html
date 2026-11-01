@@ -95,6 +95,23 @@
 </script>
 <link rel="stylesheet" href="styles.css">
 <script src="theme.js" defer></script>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],
+   k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+
+   ym(112874332, "init", {clickmap:true,trackLinks:true,accurateTrackBounce:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/112874332" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<script>
+document.addEventListener('click', function (e) {
+  var a = e.target.closest ? e.target.closest('a[href^="tel:"]') : null;
+  if (a && window.ym) { ym(112874332, 'reachGoal', 'zvonok'); }
+});
+</script>
 </head>
 <body>
 <script>
@@ -115,7 +132,7 @@
         <img src="assets/logo.svg" alt="МосВодоЭксплуатация" width="34" height="34">
         <span class="brand__name">МосВодоЭксплуатация</span>
       </div>
-      <a href="#" id="navPhone" class="header__phone">+7 903 713-88-38</a>
+      <a href="tel:+79037138838" id="navPhone" class="header__phone">+7 903 713-88-38</a>
     </div>
     <nav>
       <a href="#services">Услуги</a>
@@ -151,7 +168,7 @@
     <li>Выезд в день обращения</li>
     <li>Без демонтажа, 20–30 минут</li>
     <li>Аттестат аккредитации + ФГИС «Аршин»</li>
-    <li>Поверка от 400 ₽ за прибор</li>
+    <li>Поверка от 600 ₽ за прибор</li>
   </ul>
 </section>
 
@@ -161,7 +178,7 @@
     <div class="card card--hot">
       <h3>Поверка счётчика воды</h3>
       <p>Эталонная установка, прогон воды, акт проведения поверки. Счётчик остаётся на месте, демонтаж не нужен.</p>
-      <span class="card__tag">от 400 ₽/прибор</span>
+      <span class="card__tag">от 600 ₽/прибор</span>
     </div>
     <div class="card">
       <h3>Замена счётчика</h3>
@@ -307,7 +324,7 @@
 </section>
 
 <footer class="footer">
-  <p>МосВодоЭксплуатация · <a href="https://t.me/mosvodoexp" id="footerChannel">Наш канал в Telegram</a> · <a href="#" id="footerPhone">+7 903 713-88-38</a></p>
+  <p>МосВодоЭксплуатация · <a href="https://t.me/mosvodoexp" id="footerChannel">Наш канал в Telegram</a> · <a href="tel:+79037138838" id="footerPhone">+7 903 713-88-38</a></p>
   <p class="footer__small">ООО «МосВодоЭксплуатация» · ИНН 9703031418 · ОГРН 1217700159192 · Аттестат аккредитации № RA.RU.314074</p>
   <p class="footer__small">Адрес: 125367, Москва, пр-д Полесский, д. 16, с. 1, офис 314 · Ежедневно 9:00–21:00</p>
   <p><a href="game.html" style="color:var(--accent)">Меткий инспектор →</a> — мини-игра: бросьте пломбу на счётчик. Не попали — самое время вызвать мастера.</p>
